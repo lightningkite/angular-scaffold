@@ -3,7 +3,7 @@ angular.module( 'lkScaffold', [
   'templates-common',
   'lk.about',
   'ui.router.state',
-  'ui.route'
+  'ui.router'
 ])
 
 

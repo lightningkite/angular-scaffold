@@ -6,6 +6,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-html2js');
 
@@ -47,7 +48,17 @@ module.exports = function ( grunt ) {
     */
     sass: {
       build: {
-        files: {'<%= build_dir %>/assets/<%= app_files.sass %>.css': 'src/sass/<%= app_files.sass %>.scss'}//,
+        files: {
+          '<%= build_dir %>/assets/<%= app_files.sass %>.css': 'src/sass/<%= app_files.sass %>.scss'
+        }
+      },
+      compile: {
+        files: {
+          '<%= build_dir %>/assets/<%= app_files.sass %>.css': 'src/sass/<%= app_files.sass %>.scss'
+        },
+        options: {
+          compressed: true
+        }
       }
     },
 
@@ -61,6 +72,24 @@ module.exports = function ( grunt ) {
           '<%= build_dir %>/assets/<%= app_files.sass %>.css'
         ],
         dest: '<%= build_dir %>/assets/<%= app_files.sass %>.css'
+      },
+      /**
+       * The `compile_js` target is the concatenation of our application source
+       * code and all specified vendor source code into a single file.
+       */
+      compile_js: {
+        options: {
+          banner: '<%= meta.banner %>'
+        },
+        src: [ 
+          '<%= vendor_files.js %>', 
+          'module.prefix', 
+          '<%= build_dir %>/src/**/*.js', 
+          '<%= html2js.app.dest %>', 
+          '<%= html2js.common.dest %>', 
+          'module.suffix' 
+        ],
+        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
       }
     },
 
@@ -115,6 +144,20 @@ module.exports = function ( grunt ) {
       }
     },
 
+    /**
+     * Minify the sources!
+     */
+    uglify: {
+      compile: {
+        options: {
+          banner: '<%= meta.banner %>'
+        },
+        files: {
+          '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+        }
+      }
+    },
+
 
     /**
      * The `copy` task just copies files from A to B. We use it here to copy
@@ -162,6 +205,32 @@ module.exports = function ( grunt ) {
             expand: true
           }
         ]
+      },
+      build_vendorcss: {
+        files: [
+          {
+            src: [ '<%= vendor_files.css %>' ],
+            dest: '<%= build_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      },
+      compile_assets: {
+        files: [
+          {
+            src: [ '**' ],
+            dest: '<%= compile_dir %>/assets',
+            cwd: '<%= build_dir %>/assets',
+            expand: true
+          },
+          {
+            src: [ '<%= vendor_files.css %>' ],
+            dest: '<%= compile_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
       }
     },
 
@@ -175,6 +244,20 @@ module.exports = function ( grunt ) {
           '<%= html2js.app.dest %>',
           '<%= vendor_files.css %>',
           '<%= build_dir %>/assets/<%= app_files.sass %>.css'
+        ]
+      },
+
+      /**
+       * When it is time to have a completely compiled application, we can
+       * alter the above to include only a single JavaScript and a single CSS
+       * file. Now we're back!
+       */
+      compile: {
+        dir: '<%= compile_dir %>',
+        src: [
+          '<%= concat.compile_js.dest %>',
+          '<%= vendor_files.css %>',
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       }
     },
@@ -297,6 +380,15 @@ module.exports = function ( grunt ) {
   ]);
 
   grunt.registerTask( 'default', [ 'build' ] );
+
+  /**
+   * The `compile` task gets your app ready for deployment by concatenating and
+   * minifying your code.
+   */
+  grunt.registerTask( 'compile', [
+    'sass:build', 'copy:compile_assets', 'concat:compile_js', 'uglify', 'index:compile'
+  ]);
+
 
   /**
    * A utility function to get all app JavaScript sources.

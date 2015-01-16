@@ -61,13 +61,7 @@ module.exports = {
     js: [
       'vendor/lodash/dist/lodash.js',
       'vendor/angular/angular.js',
-      'vendor/angular-ui-router/release/angular-ui-router.js',
-      // 'vendor/angular-ui-utils/modules/route/route.js',
-      // 'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
-      // 'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
-      // 'vendor/angular-cookies/angular-cookies.js',
-      // 'vendor/angular-rest-models/src/angular-rest-models.js',
-      // 'vendor/angular-google-analytics/src/angular-google-analytics.js'
+      'vendor/angular-ui-router/release/angular-ui-router.js'
     ],
     css: [
     ],

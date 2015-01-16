@@ -1,6 +1,5 @@
 angular.module( 'lk.about', [
   'ui.router.state',
-  'ui.bootstrap',
   'lk.components'
 ])
 
