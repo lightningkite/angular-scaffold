@@ -49,12 +49,12 @@ module.exports = function ( grunt ) {
     sass: {
       build: {
         files: {
-          '<%= build_dir %>/assets/<%= app_files.sass %>.css': 'src/sass/<%= app_files.sass %>.scss'
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': 'src/sass/<%= app_files.sass %>.scss'
         }
       },
       compile: {
         files: {
-          '<%= compile_dir %>/assets/<%= app_files.sass %>.css': 'src/sass/<%= app_files.sass %>.scss'
+          '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': 'src/sass/<%= app_files.sass %>.scss'
         },
         options: {
           outputStyle: 'compressed'
@@ -69,9 +69,9 @@ module.exports = function ( grunt ) {
       build_css: {
         src: [
           '<%= vendor_files.css %>',
-          '<%= build_dir %>/assets/<%= app_files.sass %>.css'
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ],
-        dest: '<%= build_dir %>/assets/<%= app_files.sass %>.css'
+        dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
       },
       /**
        * The `compile_js` target is the concatenation of our application source
@@ -243,7 +243,7 @@ module.exports = function ( grunt ) {
           '<%= html2js.common.dest %>',
           '<%= html2js.app.dest %>',
           '<%= vendor_files.css %>',
-          '<%= build_dir %>/assets/<%= app_files.sass %>.css'
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       },
 
@@ -257,7 +257,7 @@ module.exports = function ( grunt ) {
         src: [
           '<%= concat.compile_js.dest %>',
           '<%= vendor_files.css %>',
-          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+          '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       }
     },

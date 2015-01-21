@@ -3,7 +3,7 @@
 
 
   .factory('AuthTokenFactory', AuthTokenFactory);
-  
+
 
 
   AuthTokenFactory.$inject = ['$http', '$window'];
@@ -14,8 +14,8 @@
    */
   function AuthTokenFactory ($http, $window) {
 
-    var store = $window.localStorage;
-    var key = 'auth-token';
+    var store = $window.localStorage,
+        key = 'auth-token';
 
     return {
       getToken: getToken,
