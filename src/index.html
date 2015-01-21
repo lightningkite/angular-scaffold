@@ -4,10 +4,10 @@
     <title ng-bind="pageTitle"></title>
 
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
-    <link rel="stylesheet" type="text/css" href="/static/<%= file %>" /><% }); %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
-    <script type="text/javascript" src="/static/<%= file %>"></script><% }); %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
 
   </head>
   <body>
