@@ -4,6 +4,7 @@ node_modules/
 vendor/
 build/
 bin/
+.DS_Store
 .sass-cache
 **/._*
 ._*
